@@ -1,3 +1,4 @@
+import os
 from functools import wraps
 
 from flask import Blueprint, jsonify, request, Response
@@ -10,11 +11,15 @@ blueprint = Blueprint("StatusController", __name__)
 
 
 def data_sources() -> Sequence[URLDataSource]:
-    return []
+    return URLDataSource.query.all()
 
 
 def authenticator(username: str, password: str) -> bool:
-    return False
+    admin_username = os.getenv('ADMIN_USERNAME')
+    admin_password = os.getenv('ADMIN_PASSWORD')
+    if admin_username is None or admin_password is None:
+        return False
+    return admin_username == username and admin_password == password
 
 
 def authenticate():
