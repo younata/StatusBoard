@@ -23,3 +23,10 @@ class HelpersTests(unittest.TestCase):
         b = "oo"
 
         contains_(a, b)
+
+    @staticmethod
+    def test_contains_passes_if_b_is_a():
+        a = "foo"
+        b = "foo"
+
+        contains_(a, b)

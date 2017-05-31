@@ -1,11 +1,15 @@
+import json
+
 from flask import Blueprint
 
-from typing import Callable, Sequence
+from typing import Sequence
+
+from models import URLDataSource
 
 blueprint = Blueprint("StatusController", __name__)
 
 
-def data_sources() -> Sequence[Callable]:
+def data_sources() -> Sequence[URLDataSource]:
     return []
 
 
@@ -13,8 +17,8 @@ def data_sources() -> Sequence[Callable]:
 def index():
     sources = data_sources()
     if len(sources) == 0:
-        return "Not yet configured"
+        return "[]"
     else:
-        foo = [x() for x in sources]
+        result = [model.check().__dict__() for model in sources]
 
-        return str(foo)
+        return json.dumps(result)

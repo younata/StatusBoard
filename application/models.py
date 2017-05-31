@@ -19,6 +19,9 @@ class CheckResult(object):
     def __repr__(self) -> str:
         return '<CheckResult url="%r" success="%r" />' % (self.url, self.success)
 
+    def __dict__(self) -> dict:
+        return {'url': self.url, 'success': self.success}
+
 
 class URLDataSource(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -33,4 +36,3 @@ class URLDataSource(db.Model):
         if result.status_code == 200:
             success = True
         return CheckResult(self.url, success)
-
